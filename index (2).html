@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>A-Frame Space Planets</title>
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-troika-text/dist/aframe-troika-text.min.js"></script>
     <script>
       AFRAME.registerComponent("starfield", {
         init: function () {
@@ -56,39 +57,33 @@
         <a-entity
           animation="property: rotation; to: 0 360 0; loop: true; dur: 4500; easing: linear;"
         >
-          <a-sphere
+          <a-entity
+            troika-text="value: a; font: https://fonts.gstatic.com/s/nanumgothic/v23/PN_oRfi-oW3hYwmKDpxS7F_z_tLfxno73g.woff2; fontSize: 0.9; color: #f97316; anchorX: center; anchorY: middle; outlineWidth: 0.03; outlineColor: #ffffff;"
             position="2.8 0.2 0"
-            radius="0.42"
-            color="#f97316"
-            material="metalness: 0.15; roughness: 0.65;"
             animation="property: rotation; to: 0 360 0; loop: true; dur: 2200; easing: linear;"
-          ></a-sphere>
+          ></a-entity>
         </a-entity>
 
         <a-entity
           rotation="14 0 0"
           animation="property: rotation; to: 0 360 0; loop: true; dur: 7000; easing: linear;"
         >
-          <a-sphere
+          <a-entity
+            troika-text="value: b; font: https://fonts.gstatic.com/s/nanumgothic/v23/PN_oRfi-oW3hYwmKDpxS7F_z_tLfxno73g.woff2; fontSize: 0.9; color: #38bdf8; anchorX: center; anchorY: middle; outlineWidth: 0.03; outlineColor: #ffffff;"
             position="4.2 -0.1 0"
-            radius="0.52"
-            color="#38bdf8"
-            material="metalness: 0.2; roughness: 0.55;"
             animation="property: rotation; to: 0 360 0; loop: true; dur: 3000; easing: linear;"
-          ></a-sphere>
+          ></a-entity>
         </a-entity>
 
         <a-entity
           rotation="-10 0 0"
           animation="property: rotation; to: 0 360 0; loop: true; dur: 10200; easing: linear;"
         >
-          <a-sphere
+          <a-entity
+            troika-text="value: c; font: https://fonts.gstatic.com/s/nanumgothic/v23/PN_oRfi-oW3hYwmKDpxS7F_z_tLfxno73g.woff2; fontSize: 0.9; color: #a3e635; anchorX: center; anchorY: middle; outlineWidth: 0.03; outlineColor: #ffffff;"
             position="5.6 0.35 0"
-            radius="0.36"
-            color="#a3e635"
-            material="metalness: 0.18; roughness: 0.6;"
             animation="property: rotation; to: 0 360 0; loop: true; dur: 3800; easing: linear;"
-          ></a-sphere>
+          ></a-entity>
         </a-entity>
       </a-entity>
     </a-scene>
