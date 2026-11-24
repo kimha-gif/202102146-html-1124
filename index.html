@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>벤치마킹 브랜드+제품 리서치 | 시간대별 향 제품</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --charcoal: #222A26;
+      --yellow: #E8B849;
+      --bg: #F5F4F0;
+      --white: #FFFFFF;
+      --text: #1E1E1E;
+      --text-sec: #666666;
+      --border: #E2E0D8;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(34,42,38,0.95);
+      backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 60px;
+    }
+    .nav-logo { color: var(--yellow); font-weight: 700; font-size: 14px; letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 13px; transition: color .2s; }
+    .nav-links a:hover { color: var(--yellow); }
+
+    /* ── HERO ── */
+    #hero {
+      background: var(--charcoal);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 80px 24px 60px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--yellow); color: var(--charcoal);
+      font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+      padding: 6px 16px; border-radius: 100px; margin-bottom: 32px;
+      text-transform: uppercase;
+    }
+    #hero h1 {
+      color: #fff; font-size: clamp(36px, 7vw, 72px); font-weight: 900; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    #hero h1 span { color: var(--yellow); }
+    #hero p {
+      color: rgba(255,255,255,0.55); font-size: clamp(14px, 2vw, 18px);
+      max-width: 600px; margin: 0 auto 48px;
+    }
+    .hero-tags { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .hero-tag {
+      border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6);
+      padding: 8px 20px; border-radius: 100px; font-size: 13px;
+    }
+    .hero-scroll { margin-top: 60px; color: rgba(255,255,255,0.3); font-size: 12px; letter-spacing: 0.1em; }
+    .hero-scroll::after { content: ''; display: block; width: 1px; height: 40px; background: rgba(255,255,255,0.2); margin: 10px auto 0; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 96px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      display: inline-block; color: var(--yellow); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px;
+    }
+    h2 { font-size: clamp(24px, 4vw, 40px); font-weight: 800; margin-bottom: 12px; }
+    .section-desc { color: var(--text-sec); font-size: 15px; max-width: 640px; margin-bottom: 56px; }
+
+    /* ── KEY TAKEAWAY ── */
+    #takeaway {
+      background: var(--yellow); padding: 80px 24px;
+    }
+    #takeaway .container {
+      display: flex; align-items: flex-start; gap: 48px; flex-wrap: wrap;
+    }
+    .takeaway-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: rgba(0,0,0,0.5); margin-bottom: 16px;
+    }
+    .takeaway-quote {
+      font-size: clamp(20px, 3.5vw, 32px); font-weight: 800; color: var(--charcoal);
+      line-height: 1.4; max-width: 720px;
+    }
+    .takeaway-quote em { font-style: normal; background: var(--charcoal); color: var(--yellow); padding: 2px 8px; border-radius: 4px; }
+    .takeaway-sub {
+      margin-top: 20px; font-size: 16px; color: rgba(0,0,0,0.6); font-weight: 500;
+    }
+
+    /* ── BENCHMARK CARDS ── */
+    #benchmark { background: var(--bg); }
+    .brand-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px;
+    }
+    .brand-card {
+      background: var(--white); border-radius: var(--radius); padding: 32px 24px;
+      border: 1px solid var(--border);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .brand-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
+    .brand-rank {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--charcoal); color: var(--yellow);
+      font-size: 11px; font-weight: 800; margin-bottom: 20px;
+    }
+    .brand-name { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+    .brand-sub { font-size: 12px; color: var(--text-sec); margin-bottom: 20px; }
+    .brand-tag {
+      display: inline-block; padding: 4px 12px; border-radius: 100px;
+      font-size: 11px; font-weight: 600; margin-bottom: 20px;
+    }
+    .tag-blue   { background: #E8F0FE; color: #1A73E8; }
+    .tag-green  { background: #E6F4EA; color: #137333; }
+    .tag-purple { background: #F3E8FD; color: #7B1FA2; }
+    .tag-orange { background: #FEF3E2; color: #E37400; }
+    .brand-desc { font-size: 13px; color: var(--text-sec); line-height: 1.6; margin-bottom: 20px; }
+    .brand-limit {
+      font-size: 12px; color: #c0392b; background: #FEF2F2;
+      padding: 10px 14px; border-radius: 8px; border-left: 3px solid #c0392b;
+    }
+    .brand-features { list-style: none; }
+    .brand-features li {
+      font-size: 13px; color: var(--text-sec); padding: 6px 0;
+      border-bottom: 1px solid var(--border); display: flex; gap: 8px;
+    }
+    .brand-features li:last-child { border-bottom: none; }
+    .brand-features li::before { content: '—'; color: var(--yellow); flex-shrink: 0; }
+
+    /* ── COMPARISON TABLE ── */
+    #compare { background: var(--charcoal); color: #fff; }
+    #compare h2 { color: #fff; }
+    #compare .section-desc { color: rgba(255,255,255,0.5); }
+    #compare .section-label { color: var(--yellow); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 700px; }
+    thead th {
+      background: rgba(255,255,255,0.05); padding: 14px 20px;
+      text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    thead th:first-child { border-radius: 8px 0 0 0; }
+    thead th:last-child { border-radius: 0 8px 0 0; }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,0.07); transition: background .15s; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    tbody td { padding: 16px 20px; font-size: 13px; color: rgba(255,255,255,0.75); vertical-align: top; }
+    tbody td:first-child { color: var(--yellow); font-weight: 700; font-size: 12px; letter-spacing: 0.05em; }
+    .diff-badge {
+      display: inline-block; background: var(--yellow); color: var(--charcoal);
+      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-left: 6px;
+    }
+
+    /* ── CONCEPT CARDS ── */
+    #concepts { background: var(--bg); }
+    .concept-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px;
+    }
+    .concept-card {
+      background: var(--white); border-radius: var(--radius); padding: 36px 28px;
+      border: 2px solid var(--border); position: relative; overflow: hidden;
+      transition: border-color .2s, transform .2s;
+    }
+    .concept-card:hover { border-color: var(--yellow); transform: translateY(-4px); }
+    .concept-card::before {
+      content: attr(data-num);
+      position: absolute; top: -10px; right: 20px;
+      font-size: 80px; font-weight: 900; color: var(--border); line-height: 1;
+      pointer-events: none;
+    }
+    .concept-icon { font-size: 36px; margin-bottom: 16px; }
+    .concept-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .concept-how { font-size: 13px; color: var(--text-sec); margin-bottom: 16px; line-height: 1.6; }
+    .concept-needs {
+      font-size: 12px; background: var(--bg); padding: 10px 14px;
+      border-radius: 8px; color: var(--text-sec);
+    }
+    .concept-needs strong { color: var(--text); }
+
+    /* ── SCENT SCIENCE ── */
+    #scent { background: var(--white); }
+    .scent-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px;
+      margin-bottom: 32px;
+    }
+    .scent-card {
+      border-radius: var(--radius); padding: 32px 24px;
+      border: 1px solid var(--border);
+    }
+    .scent-sleep  { background: #EEF2FF; border-color: #C7D2FE; }
+    .scent-work   { background: #ECFDF5; border-color: #A7F3D0; }
+    .scent-rest   { background: #FFF7ED; border-color: #FED7AA; }
+    .scent-common { background: #F8F5FF; border-color: #DDD6FE; }
+    .scent-emoji  { font-size: 32px; margin-bottom: 12px; }
+    .scent-mode   { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-sec); margin-bottom: 4px; }
+    .scent-name   { font-size: 20px; font-weight: 800; margin-bottom: 12px; }
+    .scent-evidence { font-size: 12px; color: var(--text-sec); line-height: 1.6; margin-bottom: 14px; }
+    .scent-apply {
+      font-size: 12px; font-weight: 600; color: var(--charcoal);
+      background: rgba(0,0,0,0.05); padding: 8px 12px; border-radius: 8px;
+    }
+    .scent-footnote {
+      font-size: 12px; color: var(--text-sec); border-left: 3px solid var(--border);
+      padding-left: 16px; line-height: 1.6;
+    }
+
+    /* ── NEXT STEPS ── */
+    #next { background: var(--charcoal); }
+    #next h2 { color: #fff; }
+    #next .section-label { color: var(--yellow); }
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 16px;
+      background: rgba(255,255,255,0.05); border-radius: 12px;
+      padding: 18px 20px; border: 1px solid rgba(255,255,255,0.08);
+      font-size: 15px; color: rgba(255,255,255,0.8);
+      transition: background .2s;
+      cursor: pointer;
+    }
+    .checklist li:hover { background: rgba(255,255,255,0.08); }
+    .checklist li.done { opacity: 0.5; }
+    .checklist li.done .check-box { background: var(--yellow); border-color: var(--yellow); }
+    .checklist li.done .check-box::after { content: '✓'; color: var(--charcoal); }
+    .check-box {
+      width: 22px; height: 22px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.2);
+      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; margin-top: 2px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--charcoal); border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 40px 24px; text-align: center;
+      color: rgba(255,255,255,0.3); font-size: 13px;
+    }
+    footer strong { color: var(--yellow); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      #takeaway .container { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">DP-01 · 벤치마킹 리서치</div>
+  <ul class="nav-links">
+    <li><a href="#benchmark">브랜드 분석</a></li>
+    <li><a href="#compare">비교</a></li>
+    <li><a href="#concepts">아이디어</a></li>
+    <li><a href="#scent">향 리서치</a></li>
+    <li><a href="#next">Next</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-badge">벤치마킹 브랜드+제품 리서치</div>
+  <h1>시간대별<br /><span>향 제품</span></h1>
+  <p>Pura · Pium · Moodo · Birdie 비교와<br />우리 제품의 차별점</p>
+  <div class="hero-tags">
+    <span class="hero-tag">김선민 202002172</span>
+    <span class="hero-tag">김하은 202102146</span>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- KEY TAKEAWAY -->
+<section id="takeaway">
+  <div class="container">
+    <div>
+      <div class="takeaway-label">핵심 한 줄</div>
+      <div class="takeaway-quote">
+        시간대별 자동 전환은 Pura가 이미 팔고 있음.<br />
+        우리는 시간이 아니라 <em>'지금 내 상태'</em>에 반응해<br />
+        <em>형태로 보여주는 방식</em>으로 차별화함.
+      </div>
+      <div class="takeaway-sub">모드는 수면·업무 2개로 시작함.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARK -->
+<section id="benchmark">
+  <div class="container">
+    <div class="section-label">01 벤치마킹 선정과 위계</div>
+    <h2>4대 브랜드 분석</h2>
+    <p class="section-desc">시간대별 전환 3종에 교수님이 알려주신 Birdie를 더해 4개로 정리함.</p>
+
+    <div class="brand-grid">
+      <!-- Pura -->
+      <div class="brand-card">
+        <div class="brand-rank">1</div>
+        <div class="brand-name">Pura 4</div>
+        <div class="brand-sub">주 비교 기준</div>
+        <span class="brand-tag tag-blue">시장 선두</span>
+        <p class="brand-desc">시간대별 향 전환을 파는 시장 선두. 400만 대 이상 판매. "홈 향수의 다이슨"</p>
+        <ul class="brand-features">
+          <li>앱 스케줄·타이머로 카트리지 2개 자동 교대</li>
+          <li>벽면 콘센트 직결식 흰색 플러그인</li>
+          <li>인플루언서 중심 마케팅, 구독 모델</li>
+          <li>접근 가능한 프리미엄 포지셔닝</li>
+        </ul>
+        <div class="brand-limit" style="margin-top:16px;">⚠ 카트리지를 계속 사야 함. 6개월 $168</div>
+      </div>
+
+      <!-- Pium -->
+      <div class="brand-card">
+        <div class="brand-rank">2</div>
+        <div class="brand-name">Pium</div>
+        <div class="brand-sub">모드 분할 비교</div>
+        <span class="brand-tag tag-green">뉴욕 스타트업</span>
+        <p class="brand-desc">집중을 요구하지 않는 주변 경험. 삼성 인큐베이터 출신. Kickstarter 선판매.</p>
+        <ul class="brand-features">
+          <li>캡슐 3개(Morning · Afternoon · Night) 자동 호출</li>
+          <li>스마트 스피커를 닮은 'Brooklyn' 외형</li>
+          <li>음성 비서 연동, 스마트 홈 타겟</li>
+          <li>스타터 키트 $199</li>
+        </ul>
+        <div class="brand-limit" style="margin-top:16px;">⚠ 최근 판매·후기 확인 불가, 시장 지속성 불투명</div>
+      </div>
+
+      <!-- Moodo -->
+      <div class="brand-card">
+        <div class="brand-rank">3</div>
+        <div class="brand-name">Moodo</div>
+        <div class="brand-sub">향 혼합·앱 제어</div>
+        <span class="brand-tag tag-purple">향 전문기업</span>
+        <p class="brand-desc">향료 전문기업 Agan Aroma(50년)의 스마트 디바이스. Indiegogo 20만 달러 모금.</p>
+        <ul class="brand-features">
+          <li>캡슐 4개 세기를 앱으로 개별 조절해 향 믹싱</li>
+          <li>15분 셔플, 스케줄 기능</li>
+          <li>네스프레소 머신 형태</li>
+          <li>본체 $189, 캡슐 팩 $30</li>
+        </ul>
+        <div class="brand-limit" style="margin-top:16px;">⚠ 값이 비싸고 캡슐 구독 필수. 앱 의존성 높음</div>
+      </div>
+
+      <!-- Birdie -->
+      <div class="brand-card">
+        <div class="brand-rank">4</div>
+        <div class="brand-name">Birdie</div>
+        <div class="brand-sub">반응·형태 — 교수님 제시</div>
+        <span class="brand-tag tag-orange">덴마크 디자인</span>
+        <p class="brand-desc">기술 제품처럼 보이지 않는 기술 제품. Kickstarter 30일 50만 달러 달성.</p>
+        <ul class="brand-features">
+          <li>CO₂ 1,000ppm 초과 → 카나리아가 쓰러짐</li>
+          <li>800ppm 이하 → 다시 일어섬</li>
+          <li>벽걸이 노란 새 오브제 외형</li>
+          <li>앱·디스플레이 없이 몸짓으로 상태 전달</li>
+        </ul>
+        <div class="brand-limit" style="margin-top:16px;">⚠ 공기 상태만 알려줌. 정화 기능 없음</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section id="compare">
+  <div class="container">
+    <div class="section-label">02 핵심 비교</div>
+    <h2>우리 제품과의 차별점</h2>
+    <p class="section-desc">우리 제품은 수면·업무 모드를 바꾸는 향 제품(가칭). 팀 브랜드명이 정해지면 반영함.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>비교 항목</th>
+            <th>Pura · Pium · Moodo</th>
+            <th>Birdie</th>
+            <th>우리 제품 <span class="diff-badge">차별</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>전환 기준</td>
+            <td>시각 스케줄</td>
+            <td>공기 상태 (CO₂)</td>
+            <td>지금 내 상태 (밝기·자세·자리)</td>
+          </tr>
+          <tr>
+            <td>모드 수</td>
+            <td>시간대 여러 개</td>
+            <td>상태 2개 (정상, 쓰러짐)</td>
+            <td>수면·업무 2개로 단순화</td>
+          </tr>
+          <tr>
+            <td>작동 방식</td>
+            <td>앱으로 설정, 자동 실행</td>
+            <td>센서가 읽고 몸짓으로 보여줌</td>
+            <td>앱 없이 형태가 바뀌며 향 전환</td>
+          </tr>
+          <tr>
+            <td>외형</td>
+            <td>가전형 (감지기·스피커·커피머신)</td>
+            <td>노란 새, 의인화</td>
+            <td>상태를 보여주는 형태 모티프</td>
+          </tr>
+          <tr>
+            <td>소모품</td>
+            <td>카트리지·캡슐 정기 구매</td>
+            <td>소모품 없음</td>
+            <td>미정</td>
+          </tr>
+          <tr>
+            <td>타겟</td>
+            <td>스마트 홈 사용자</td>
+            <td>집·사무실·학교</td>
+            <td>집에서 일하는 재택근무자</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:36px; background:rgba(232,184,73,0.1); border:1px solid rgba(232,184,73,0.3); border-radius:12px; padding:24px 28px;">
+      <div style="color:var(--yellow); font-size:11px; font-weight:700; letter-spacing:0.1em; margin-bottom:8px;">가져올 것</div>
+      <div style="color:rgba(255,255,255,0.8); font-size:15px; line-height:1.7;">
+        Pura의 <strong style="color:#fff;">감성 마케팅과 구독 모델</strong> + Birdie의 <strong style="color:#fff;">상태를 몸짓으로 보여주는 방식</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEPT CARDS -->
+<section id="concepts">
+  <div class="container">
+    <div class="section-label">03 외형·기능 아이디어 후보</div>
+    <h2>4가지 대안</h2>
+    <p class="section-desc">취미는 빼고 수면·업무 중심으로 정리함. 아래 안 중 하나로 좁히기 전 비교용 후보임.</p>
+
+    <div class="concept-grid">
+      <div class="concept-card" data-num="1">
+        <div class="concept-icon">👁</div>
+        <div class="concept-title">1안: 눈 (Eye)</div>
+        <div class="concept-how">밝기에 반응함. 밝으면 눈이 뜨며 업무 향, 어두워지면 눈이 감기며 수면 향이 열림. 자동이고 앱이 없음.</div>
+        <div class="concept-needs"><strong>필요:</strong> 조도 센서, 작은 모터</div>
+      </div>
+
+      <div class="concept-card" data-num="2">
+        <div class="concept-icon">↕️</div>
+        <div class="concept-title">2안: 세움·눕힘</div>
+        <div class="concept-how">자세에 반응함. 세워 두면 업무 향, 눕히면 수면 향이 나옴. Birdie의 쓰러짐과 같은 방식.</div>
+        <div class="concept-needs"><strong>특징:</strong> 손으로 바꾸고 전원 없이 가능</div>
+      </div>
+
+      <div class="concept-card" data-num="3">
+        <div class="concept-icon">🔲</div>
+        <div class="concept-title">3안: 받침 (Dock)</div>
+        <div class="concept-how">놓인 자리에 반응함. 책상 받침에 두면 업무 향, 협탁 받침에 두면 수면 향이 나옴.</div>
+        <div class="concept-needs"><strong>특징:</strong> 전원 없이 가능. 자리로 모드 전환</div>
+      </div>
+
+      <div class="concept-card" data-num="4">
+        <div class="concept-icon">🔮</div>
+        <div class="concept-title">4안: 향 알갱이</div>
+        <div class="concept-how">알록달록한 알갱이 하나하나가 향을 담음. 상황(휴식·업무·수면)을 정하면 조합 추천, 나만의 조합으로 바꿀 수 있음.</div>
+        <div class="concept-needs"><strong>필요:</strong> 알갱이 수집 구조, 상황 설정 입력</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENT SCIENCE -->
+<section id="scent">
+  <div class="container">
+    <div class="section-label">참고 향 리서치</div>
+    <h2>수면·업무·휴식 과학적 근거</h2>
+    <p class="section-desc">아로마테라피 메타분석 및 인지과학 연구를 바탕으로 정리함.</p>
+
+    <div class="scent-grid">
+      <div class="scent-card scent-sleep">
+        <div class="scent-emoji">😴</div>
+        <div class="scent-mode">수면</div>
+        <div class="scent-name">라벤더</div>
+        <div class="scent-evidence">아로마는 수면의 질을 높임 (한국 메타분석 23편). 단일 향이 혼합 향보다 효과가 크고, 그중 라벤더가 가장 컸음.</div>
+        <div class="scent-apply">→ 수면 모드는 향 1종으로 단순하게</div>
+      </div>
+
+      <div class="scent-card scent-work">
+        <div class="scent-emoji">💡</div>
+        <div class="scent-mode">업무</div>
+        <div class="scent-name">로즈마리</div>
+        <div class="scent-evidence">로즈마리 향이 나는 방에서 미래기억 점수 15% 향상, 더 각성함. 라벤더는 반응속도를 떨어뜨림.</div>
+        <div class="scent-apply">→ 업무 향은 로즈마리, 라벤더는 제외</div>
+      </div>
+
+      <div class="scent-card scent-rest">
+        <div class="scent-emoji">🍊</div>
+        <div class="scent-mode">휴식 (후보)</div>
+        <div class="scent-name">시트러스</div>
+        <div class="scent-evidence">에센셜 오일 메타분석에서 비터오렌지가 불안 줄이기 1위, 레몬도 효과 중간~큼.</div>
+        <div class="scent-apply">→ 현재 후보로만 보류</div>
+      </div>
+
+      <div class="scent-card scent-common">
+        <div class="scent-emoji">🧠</div>
+        <div class="scent-mode">공통 원칙</div>
+        <div class="scent-name">모드마다 고정</div>
+        <div class="scent-evidence">학습할 때와 떠올릴 때 같은 향이 있으면 단어 회상이 좋아짐 (맥락 의존 기억).</div>
+        <div class="scent-apply">→ 모드마다 향을 고정, 자주 바꾸지 않음</div>
+      </div>
+    </div>
+
+    <div class="scent-footnote">
+      수면 연구는 노인·폐경 여성·중환자 대상이 많아 일반 사용자에게 그대로 말하긴 어려움. 취미 향은 기준이 없어서 제외.
+    </div>
+  </div>
+</section>
+
+<!-- NEXT -->
+<section id="next">
+  <div class="container">
+    <div class="section-label">NEXT</div>
+    <h2 style="color:#fff; margin-bottom:40px;">앞으로 할 일</h2>
+
+    <ul class="checklist">
+      <li onclick="this.classList.toggle('done')">
+        <div class="check-box"></div>
+        후보 4안 중 하나로 좁히기
+      </li>
+      <li onclick="this.classList.toggle('done')">
+        <div class="check-box"></div>
+        고른 안의 형태 스케치와 작동 방식 정리
+      </li>
+      <li onclick="this.classList.toggle('done')">
+        <div class="check-box"></div>
+        수면·업무 향 2종 정하기
+      </li>
+      <li onclick="this.classList.toggle('done')">
+        <div class="check-box"></div>
+        팀 브랜드명과 제품명 확정 후 비교표에 반영
+      </li>
+      <li onclick="this.classList.toggle('done')">
+        <div class="check-box"></div>
+        소모품 구조 정하기
+      </li>
+      <li onclick="this.classList.toggle('done')">
+        <div class="check-box"></div>
+        Pium 현재 판매 상태 확인
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>DP-01 벤치마킹 리서치</strong> · 김선민 202002172 · 김하은 202102146<br />
+  <span style="font-size:11px; margin-top:6px; display:block;">Pura · Pium · Moodo · Birdie 비교와 우리 제품의 차별점</span>
+</footer>
+
+</body>
+</html>
